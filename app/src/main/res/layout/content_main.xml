@@ -14,4 +14,71 @@
     tools:showIn="@layout/activity_main"
     android:background="@drawable/login_bg">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_marginTop="257dp"
+        android:id="@+id/userNameEditText"
+        android:background="@drawable/username_login"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_height="80dp"
+        android:hint="@string/userLoginEditText"
+        android:textColorHint="#FFFFFF" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:ems="10"
+        android:id="@+id/passwordEditText"
+        android:layout_marginTop="39dp"
+        android:layout_below="@+id/userNameEditText"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/password_login"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:hint="@string/passwordEditText"
+        android:textSize="30sp"
+        android:inputType="textPassword"
+        android:textColorHint="#FFFFFF"/>
+
+    <Button
+        android:text="@string/singInButtonBG"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="155dp"
+        android:id="@+id/signInButton"
+        android:layout_height="70dp"
+        android:background="@drawable/signin_button_bg"
+        android:layout_width="220dp"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+    <TextView
+        android:text="@string/accountCheckTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="72dp"
+        android:id="@+id/accountCheckTextView"
+        android:textSize="25sp"
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/signInButton"
+        android:layout_marginEnd="55dp" />
+
+    <TextView
+        android:text="@string/signUpTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="122dp"
+        android:id="@+id/signUpTextView"
+        android:textSize="25sp"
+        android:textColor="@color/fam_gram_signup"
+        android:layout_alignBaseline="@+id/accountCheckTextView"
+        android:layout_alignBottom="@+id/accountCheckTextView"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

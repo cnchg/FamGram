@@ -9,4 +9,10 @@
     <string name="title_activity_driver_location">Map</string>
     <string name="hello_world">Hello World!</string>
 
+    <string name="userLoginEditText">USERNAME</string>
+    <string name="passwordEditText">PASSWORD</string>
+    <string name="singInButtonBG">Sing In</string>
+    <string name="accountCheckTextView">Don’t have an account? </string>
+    <string name="signUpTextView">Sign Up</string>
+
 </resources>

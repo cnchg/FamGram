@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.Switch;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -30,6 +31,9 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
+    EditText userNameEditText;
+    EditText passwordEdtText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
+
+        //Stops the keyboard from popping up,on load.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        userNameEditText = (EditText) findViewById(R.id.userNameEditText);
+        passwordEdtText = (EditText) findViewById(R.id.passwordEditText);
+
 
         //Check if the user is already logged in.
         if (ParseUser.getCurrentUser() != null){
