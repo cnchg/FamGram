@@ -27,9 +27,9 @@ public class StarterApplication extends Application{
 
         // Add your initialization code here
         Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
-                .applicationId("myAppId")
-                .clientKey("12345")
-                .server("https://ovh.tricloudcommunications.com:1337/parse/")
+                .applicationId("myAppIdIsCrazyDude")
+                .clientKey("mila12130906")
+                .server("https://ovh.tricloudcommunications.com:1338/parseFamGram/")
                 .build()
         );
 

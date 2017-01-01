@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Switch;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -31,9 +33,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // remove Action/Title Bar and makes full screen
+        //Source http://stackoverflow.com/questions/2862528/how-to-hide-app-title-in-android
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        //Check if the user is already logged in.
+        if (ParseUser.getCurrentUser() != null){
+
+            Log.i("curentUser", "User is logged in " + ParseUser.getCurrentUser().getUsername());
+
+        }else {
+
+            Log.i("curentUser", "User is Not logged in ");
+
+        }
+
+
 
         //Start with: Create Objects, Query Objects, Update Objects
         /**
@@ -265,16 +284,6 @@ public class MainActivity extends AppCompatActivity {
         */
 
 
-        //Check if the user is already logged in.
-        if (ParseUser.getCurrentUser() != null){
-
-            Log.i("curentUser", "User is logged in " + ParseUser.getCurrentUser().getUsername());
-
-        }else {
-
-            Log.i("curentUser", "User is Not logged in ");
-
-        }
 
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
