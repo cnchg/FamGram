@@ -10,9 +10,19 @@
     <string name="hello_world">Hello World!</string>
 
     <string name="userLoginEditText">USERNAME</string>
-    <string name="passwordEditText">PASSWORD</string>
-    <string name="singInButtonBG">Sing In</string>
+    <string name="userPasswordEditText">PASSWORD</string>
+    <string name="singInButtonBG">Sing in</string>
     <string name="accountCheckTextView">Don’t have an account? </string>
-    <string name="signUpTextView">Sign Up</string>
+    <string name="signUpTextView">Sign up</string>
+
+    <string name="signupUserNameEditText">USERNAME</string>
+    <string name="signupPasswordEditText">PASSWORD</string>
+    <string name="signupEmailEditText">EMAIL</string>
+    <string name="signupPhoneNumberEditText">PHONE NUMBER</string>
+    <string name="singupButtonText">Sign up</string>
+    <string name="loginCheckTextView">Already have an account? </string>
+    <string name="logInTextView">Log in</string>
+
+
 
 </resources>

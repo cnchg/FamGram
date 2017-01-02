@@ -2,37 +2,117 @@ package com.tricloudcommunications.ce.famgram;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.Intent;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.LogInCallback;
-import com.parse.Parse;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.parse.ParseAnalytics;
-import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
-
-import java.util.List;
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText userNameEditText;
-    EditText passwordEdtText;
+    RelativeLayout signUpLayout;
+    RelativeLayout signInLayout;
+    EditText logInUserNameEditText;
+    EditText loginPasswordEdtText;
+    Button logInButton;
+    TextView signUpTextView;
+
+    EditText signUpUserNameEditText;
+    EditText signUpPasswordEditText;
+    EditText signUpEmailEditText;
+    EditText signUpPhoneNumberEditText;
+    Button signUpButton;
+    TextView logInTextView;
+
+    public void userSignIn(View view){
+
+        if (logInUserNameEditText.length() < 1 || loginPasswordEdtText.length() < 1 ){
+
+            Toast.makeText(getApplicationContext(), "Please enter a username and password", Toast.LENGTH_LONG).show();
+        }else{
+
+            Toast.makeText(getApplicationContext(),"Awsome you completed the form", Toast.LENGTH_LONG).show();
+
+        }
+
+    }
+
+    public void userSignUp(View view){
+
+        String signUpUserName = String.valueOf(signUpUserNameEditText.getText()).trim(); //Remove white spaces from the begining and end of string
+        String signUpPassword = String.valueOf(signUpPasswordEditText.getText()).trim(); //Remove white spaces from the begining and end of string
+        String signUpEmail = String.valueOf(signUpEmailEditText.getText()).trim(); //Remove white spaces from the begining and end of string
+        String signUpPhoneNumber = String.valueOf(signUpPhoneNumberEditText.getText()).trim(); //Remove white spaces from the begining and end of string
+
+        if (signUpUserNameEditText.length() < 1 || signUpPasswordEditText.length() < 1 || signUpEmailEditText.length() < 1 || signUpPhoneNumberEditText.length() < 1){
+
+            Toast.makeText(getApplicationContext(), "Please enter a username, password, email, and phone number", Toast.LENGTH_LONG).show();
+
+        }else {
+
+            ParseUser userSignUp = new ParseUser();
+            userSignUp.setUsername(signUpUserName);
+            userSignUp.setPassword(signUpPassword);
+            userSignUp.setEmail(signUpEmail);
+            userSignUp.put("phoneNumber", signUpPhoneNumber);
+            userSignUp.signUpInBackground(new SignUpCallback() {
+                @Override
+                public void done(ParseException e) {
+
+                    if (e == null){
+
+                        Toast.makeText(getApplicationContext(), "Awesome, you account is setup", Toast.LENGTH_LONG).show();
+
+                    }else{
+
+                        Toast.makeText(getApplicationContext(), "Failed: " + e.toString(), Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+
+
+        }
+    }
+
+    public void logInNow(View view){
+
+        signUpLayout.setVisibility(View.INVISIBLE);
+        signInLayout.setVisibility(View.VISIBLE);
+        //signUpLayout.animate().translationXBy(1000f).setDuration(2000);//Transition the image in from right to left
+
+        Log.i("UserEvent", "User Clicked Sign In");
+
+    }
+
+    public void signUpNow(View view){
+
+        signInLayout.setVisibility(View.INVISIBLE);
+        signUpLayout.setVisibility(View.VISIBLE);
+        //signUpLayout.animate().translationXBy(1000f).setDuration(2000);//Transition the image in from right to left
+
+        Log.i("UserEvent", "User Clicked Sign Up");
+
+    }
+
+    public void notLoggedIn(){
+
+        signInLayout.setVisibility(View.VISIBLE);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +128,19 @@ public class MainActivity extends AppCompatActivity {
         //Stops the keyboard from popping up,on load.
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        userNameEditText = (EditText) findViewById(R.id.userNameEditText);
-        passwordEdtText = (EditText) findViewById(R.id.passwordEditText);
+        signInLayout = (RelativeLayout) findViewById(R.id.signInLayout);
+        signUpLayout = (RelativeLayout) findViewById(R.id.signUpLayout);
+        logInUserNameEditText = (EditText) findViewById(R.id.loginUserNameEditText);
+        loginPasswordEdtText = (EditText) findViewById(R.id.loginPasswordEditText);
+        logInButton = (Button) findViewById(R.id.logInButton);
+        signUpTextView = (TextView) findViewById(R.id.logInTextView);
+        signUpUserNameEditText = (EditText) findViewById(R.id.signupUserNameEditText);
+        signUpPasswordEditText = (EditText) findViewById(R.id.signupPasswordEditText);
+        signUpEmailEditText = (EditText) findViewById(R.id.signupEmailEditText);
+        signUpPhoneNumberEditText = (EditText) findViewById(R.id.signupPhoneNumberEditText);
+        signUpButton = (Button) findViewById(R.id.signUpButton);
+        logInTextView = (TextView) findViewById(R.id.logInTextView);
+
 
 
         //Check if the user is already logged in.
@@ -59,10 +150,11 @@ public class MainActivity extends AppCompatActivity {
 
         }else {
 
+            notLoggedIn();
+
             Log.i("curentUser", "User is Not logged in ");
 
         }
-
 
 
         //Start with: Create Objects, Query Objects, Update Objects
