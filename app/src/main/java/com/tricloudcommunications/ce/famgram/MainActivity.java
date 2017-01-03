@@ -10,10 +10,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.LogInCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -37,14 +39,41 @@ public class MainActivity extends AppCompatActivity {
     Button signUpButton;
     TextView logInTextView;
 
+    ImageButton logOutImageButton;
+
     public void userSignIn(View view){
+
+        String logInUserName = String.valueOf(logInUserNameEditText.getText()).trim(); //Remove white spaces from the begining and end of string
+        String logInPassword = String.valueOf(loginPasswordEdtText.getText()).trim(); //Remove white spaces from the begining and end of string
 
         if (logInUserNameEditText.length() < 1 || loginPasswordEdtText.length() < 1 ){
 
             Toast.makeText(getApplicationContext(), "Please enter a username and password", Toast.LENGTH_LONG).show();
+
         }else{
 
-            Toast.makeText(getApplicationContext(),"Awsome you completed the form", Toast.LENGTH_LONG).show();
+            //Login: how to log  users in
+            ParseUser.logInInBackground(logInUserName, logInPassword, new LogInCallback() {
+                @Override
+                public void done(ParseUser user, ParseException e) {
+
+                    if (e == null && user !=null){
+
+                        Toast.makeText(getApplicationContext(),"You have successfully logged in", Toast.LENGTH_LONG).show();
+
+                        Log.i("LogInStatus", "You have successfully logged in");
+
+                    }else {
+
+                        Toast.makeText(getApplicationContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
+
+                        Log.i("LogInStatus", "Failed- Error: " + e.getMessage().toString());
+
+                    }
+
+                }
+            });
+
 
         }
 
@@ -78,12 +107,12 @@ public class MainActivity extends AppCompatActivity {
 
                     }else{
 
-                        Toast.makeText(getApplicationContext(), "Failed: " + e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), e.getMessage().toString() + " Try using another username and email.", Toast.LENGTH_LONG).show();
+                        Log.i("Sign In Error:", e.getMessage().toString());
 
                     }
                 }
             });
-
 
         }
     }
@@ -95,6 +124,19 @@ public class MainActivity extends AppCompatActivity {
         //signUpLayout.animate().translationXBy(1000f).setDuration(2000);//Transition the image in from right to left
 
         Log.i("UserEvent", "User Clicked Sign In");
+
+    }
+
+    public void logOutNow(View view){
+
+        ParseUser.logOut();
+        logOutImageButton.setVisibility(View.INVISIBLE);
+        signInLayout.setVisibility(View.VISIBLE);
+        //signInLayout.animate().alpha(1f).setDuration(500);//makes the images visible
+
+
+        Log.i("UserEvent", "User Clicked Log Out");
+
 
     }
 
@@ -140,13 +182,18 @@ public class MainActivity extends AppCompatActivity {
         signUpPhoneNumberEditText = (EditText) findViewById(R.id.signupPhoneNumberEditText);
         signUpButton = (Button) findViewById(R.id.signUpButton);
         logInTextView = (TextView) findViewById(R.id.logInTextView);
+        logOutImageButton = (ImageButton) findViewById(R.id.logOutImageButton);
 
 
 
         //Check if the user is already logged in.
         if (ParseUser.getCurrentUser() != null){
 
+            logOutImageButton.setVisibility(View.VISIBLE);
+
             Log.i("curentUser", "User is logged in " + ParseUser.getCurrentUser().getUsername());
+
+
 
         }else {
 
