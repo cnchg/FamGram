@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     RelativeLayout signUpLayout;
     RelativeLayout signInLayout;
+    RelativeLayout passwordResetLayout;
     EditText logInUserNameEditText;
     EditText loginPasswordEdtText;
     Button logInButton;
@@ -104,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
                     if (e == null){
 
                         Toast.makeText(getApplicationContext(), "Awesome, you account is setup", Toast.LENGTH_LONG).show();
+                        signUpLayout.setVisibility(View.INVISIBLE);
+                        logOutImageButton.setVisibility(View.VISIBLE);
 
                     }else{
 
@@ -115,6 +118,11 @@ public class MainActivity extends AppCompatActivity {
             });
 
         }
+    }
+
+    public void passwordReset(View view){
+
+        Log.i("UserEvent", "Password reset button clicked, Send Email");
     }
 
     public void logInNow(View view){
@@ -134,9 +142,16 @@ public class MainActivity extends AppCompatActivity {
         signInLayout.setVisibility(View.VISIBLE);
         //signInLayout.animate().alpha(1f).setDuration(500);//makes the images visible
 
-
         Log.i("UserEvent", "User Clicked Log Out");
 
+    }
+
+    public void resetPasswordNow(View view){
+
+        signInLayout.setVisibility(View.INVISIBLE);
+        passwordResetLayout.setVisibility(View.VISIBLE);
+
+        Log.i("UserEvent", "User Clicked Rest Password");
 
     }
 
@@ -172,10 +187,11 @@ public class MainActivity extends AppCompatActivity {
 
         signInLayout = (RelativeLayout) findViewById(R.id.signInLayout);
         signUpLayout = (RelativeLayout) findViewById(R.id.signUpLayout);
+        passwordResetLayout = (RelativeLayout) findViewById(R.id.resetPasswordLayout);
         logInUserNameEditText = (EditText) findViewById(R.id.loginUserNameEditText);
         loginPasswordEdtText = (EditText) findViewById(R.id.loginPasswordEditText);
         logInButton = (Button) findViewById(R.id.logInButton);
-        signUpTextView = (TextView) findViewById(R.id.logInTextView);
+        signUpTextView = (TextView) findViewById(R.id.sig);
         signUpUserNameEditText = (EditText) findViewById(R.id.signupUserNameEditText);
         signUpPasswordEditText = (EditText) findViewById(R.id.signupPasswordEditText);
         signUpEmailEditText = (EditText) findViewById(R.id.signupEmailEditText);

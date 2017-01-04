@@ -23,13 +23,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:onClick="logOutNow"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:contentDescription="@string/logOutImageButtonDescription" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/signInLayout"
-        android:visibility="invisible">
+        android:visibility="visible">
 
         <EditText
             android:layout_width="match_parent"
@@ -65,7 +66,7 @@
 
         <Button
             android:text="@string/singInButtonBG"
-            android:layout_marginBottom="89dp"
+            android:layout_marginBottom="175dp"
             android:id="@+id/logInButton"
             android:layout_height="70dp"
             android:background="@drawable/signin_button_bg"
@@ -74,7 +75,19 @@
             android:textSize="24sp"
             android:textAllCaps="false"
             android:onClick="userSignIn"
-            android:layout_above="@+id/signInLayoutTextView"
+            android:layout_above="@+id/accountCheckTextView"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/forgotPasswordTextView"
+            android:text="@string/forgetPasswordTextView"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:onClick="resetPasswordNow"
+            android:layout_marginBottom="142dp"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 
         <TextView
@@ -86,14 +99,14 @@
             android:textColor="@android:color/white"
             android:layout_marginEnd="16dp"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/signInLayoutTextView" />
+            android:layout_toStartOf="@+id/signInTextView" />
 
         <TextView
             android:text="@string/signUpTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="108dp"
-            android:id="@+id/signInLayoutTextView"
+            android:id="@+id/signInTextView"
             android:textSize="25sp"
             android:textColor="@color/fam_gram_signup"
             android:layout_alignBaseline="@+id/accountCheckTextView"
@@ -176,7 +189,6 @@
             android:layout_alignParentStart="true" />
 
         <Button
-            android:layout_marginBottom="89dp"
             android:id="@+id/signUpButton"
             android:layout_height="70dp"
             android:background="@drawable/signin_button_bg"
@@ -185,9 +197,10 @@
             android:textSize="24sp"
             android:textAllCaps="false"
             android:onClick="userSignUp"
-            android:layout_above="@+id/logInTextView"
+            android:text="@string/singupButtonText"
+            android:layout_below="@+id/signupPhoneNumberEditText"
             android:layout_centerHorizontal="true"
-            android:text="@string/singupButtonText" />
+            android:layout_marginTop="108dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -212,6 +225,55 @@
             android:text="@string/logInTextView"
             android:layout_alignTop="@+id/loginCheckTextView"
             android:onClick="logInNow" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/resetPasswordLayout"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/passwordResetTextView"
+            android:text="@string/passwordResetTextView"
+            android:textSize="32sp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="198dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:layout_below="@+id/passwordResetTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="69dp"
+            android:id="@+id/passwordResetEmailEditText"
+            android:hint="@string/passwordResetEmailEditText"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:background="@drawable/edit_text_bg" />
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="45dp"
+            android:id="@+id/passwordResetButton"
+            android:layout_below="@+id/passwordResetEmailEditText"
+            android:layout_centerHorizontal="true"
+            android:text="@string/passwordResetButton"
+            android:textSize="24sp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/reset_password_button_bg"
+            android:onClick="passwordReset" />
 
     </RelativeLayout>
 

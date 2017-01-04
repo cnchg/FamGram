@@ -23,6 +23,13 @@
     <string name="loginCheckTextView">Already have an account? </string>
     <string name="logInTextView">Log in</string>
 
+    <string name="logOutImageButtonDescription">Log Out Buttom</string>
+
+    <string name="forgetPasswordTextView">Forgot password? </string>
+    <string name="passwordResetTextView">Please enter your email to reset you password.</string>
+    <string name="passwordResetEmailEditText">Email</string>
+    <string name="passwordResetButton">Email Password</string>
+
 
 
 </resources>
