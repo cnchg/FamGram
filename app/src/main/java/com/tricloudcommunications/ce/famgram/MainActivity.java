@@ -134,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
                     if (e == null){
 
                         Toast.makeText(getApplicationContext(), "Please check your email for instructions", Toast.LENGTH_LONG).show();
+                        passwordResetLayout.setVisibility(View.INVISIBLE);
+                        signInLayout.setVisibility(View.VISIBLE);
 
                     }else{
 
