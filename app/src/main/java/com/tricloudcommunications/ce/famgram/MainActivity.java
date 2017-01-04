@@ -20,6 +20,7 @@ import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.RequestPasswordResetCallback;
 import com.parse.SignUpCallback;
 
 
@@ -32,15 +33,14 @@ public class MainActivity extends AppCompatActivity {
     EditText loginPasswordEdtText;
     Button logInButton;
     TextView signUpTextView;
-
     EditText signUpUserNameEditText;
     EditText signUpPasswordEditText;
     EditText signUpEmailEditText;
     EditText signUpPhoneNumberEditText;
     Button signUpButton;
     TextView logInTextView;
-
     ImageButton logOutImageButton;
+    EditText passwordResetEmailEditText;
 
     public void userSignIn(View view){
 
@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-
 
         }
 
@@ -121,6 +120,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void passwordReset(View view){
+
+        String passwordResetEmail = String.valueOf(passwordResetEmailEditText.getText()).trim(); //Remove white spaces from the begining and end of string
+
+        if (passwordResetEmailEditText.length() < 1){
+
+            Toast.makeText(getApplicationContext(), "Please enter your email address", Toast.LENGTH_LONG).show();
+        }else{
+
+            ParseUser.requestPasswordResetInBackground(passwordResetEmail, new RequestPasswordResetCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null){
+
+                        Toast.makeText(getApplicationContext(), "Please check your email for instructions", Toast.LENGTH_LONG).show();
+
+                    }else{
+
+                        Toast.makeText(getApplicationContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        Log.i("Password Reset Error:", e.getMessage().toString());
+                    }
+                }
+            });
+
+
+        }
 
         Log.i("UserEvent", "Password reset button clicked, Send Email");
     }
@@ -191,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         logInUserNameEditText = (EditText) findViewById(R.id.loginUserNameEditText);
         loginPasswordEdtText = (EditText) findViewById(R.id.loginPasswordEditText);
         logInButton = (Button) findViewById(R.id.logInButton);
-        signUpTextView = (TextView) findViewById(R.id.sig);
+        signUpTextView = (TextView) findViewById(R.id.signUpTextView);
         signUpUserNameEditText = (EditText) findViewById(R.id.signupUserNameEditText);
         signUpPasswordEditText = (EditText) findViewById(R.id.signupPasswordEditText);
         signUpEmailEditText = (EditText) findViewById(R.id.signupEmailEditText);
@@ -199,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
         signUpButton = (Button) findViewById(R.id.signUpButton);
         logInTextView = (TextView) findViewById(R.id.logInTextView);
         logOutImageButton = (ImageButton) findViewById(R.id.logOutImageButton);
+        passwordResetEmailEditText = (EditText) findViewById(R.id.passwordResetEmailEditText);
 
 
 

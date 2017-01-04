@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/signInLayout"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <EditText
             android:layout_width="match_parent"
@@ -99,14 +99,14 @@
             android:textColor="@android:color/white"
             android:layout_marginEnd="16dp"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/signInTextView" />
+            android:layout_toStartOf="@+id/signUpTextView" />
 
         <TextView
             android:text="@string/signUpTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="108dp"
-            android:id="@+id/signInTextView"
+            android:id="@+id/signUpTextView"
             android:textSize="25sp"
             android:textColor="@color/fam_gram_signup"
             android:layout_alignBaseline="@+id/accountCheckTextView"
