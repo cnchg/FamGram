@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
                     if (e == null && user !=null){
 
                         Toast.makeText(getApplicationContext(),"You have successfully logged in", Toast.LENGTH_LONG).show();
+                        signInLayout.setVisibility(View.INVISIBLE);
+                        logOutImageButton.setVisibility(View.VISIBLE);
 
                         Log.i("LogInStatus", "You have successfully logged in");
 
@@ -145,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-
         }
 
         Log.i("UserEvent", "Password reset button clicked, Send Email");
@@ -188,6 +189,15 @@ public class MainActivity extends AppCompatActivity {
         //signUpLayout.animate().translationXBy(1000f).setDuration(2000);//Transition the image in from right to left
 
         Log.i("UserEvent", "User Clicked Sign Up");
+
+    }
+
+    public void returnToLoginNow(View view){
+
+        passwordResetLayout.setVisibility(View.INVISIBLE);
+        signInLayout.setVisibility(View.VISIBLE);
+
+        Log.i("UserEvent", "User Clicked return to login");
 
     }
 

@@ -232,7 +232,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/resetPasswordLayout"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -270,10 +272,35 @@
             android:layout_below="@+id/passwordResetEmailEditText"
             android:layout_centerHorizontal="true"
             android:text="@string/passwordResetButton"
+            android:textAllCaps="false"
             android:textSize="24sp"
             android:textColor="@android:color/white"
             android:background="@drawable/reset_password_button_bg"
             android:onClick="passwordReset" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cancelPasswordResetTextView"
+            android:text="@string/cancelPasswordResetTextView"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="86dp"
+            android:layout_below="@+id/passwordResetButton"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/returnToLogInTextView"
+            android:text="@string/returnToLoginTextView"
+            android:textSize="20sp"
+            android:textColor="@color/fam_gram_accent"
+            android:layout_marginStart="12dp"
+            android:layout_alignBaseline="@+id/cancelPasswordResetTextView"
+            android:layout_alignBottom="@+id/cancelPasswordResetTextView"
+            android:layout_toEndOf="@+id/cancelPasswordResetTextView"
+            android:onClick="returnToLoginNow" />
 
     </RelativeLayout>
 

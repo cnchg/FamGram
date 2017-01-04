@@ -29,6 +29,8 @@
     <string name="passwordResetTextView">Please enter your email to reset you password.</string>
     <string name="passwordResetEmailEditText">Email</string>
     <string name="passwordResetButton">Email Password</string>
+    <string name="cancelPasswordResetTextView">Never mind, I don\'t need a reset. </string>
+    <string name="returnToLoginTextView">Log in</string>
 
 
 
