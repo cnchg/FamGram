@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1064109050996",
+    "firebase_url": "https://onesignalpushtest-a92ca.firebaseio.com",
+    "project_id": "onesignalpushtest-a92ca",
+    "storage_bucket": "onesignalpushtest-a92ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064109050996:android:cf222f8710c977ff",
+        "android_client_info": {
+          "package_name": "com.tricloudcommunications.ce.famgram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064109050996-ogu3m9gm6pnnc0iq8unfv507vp08blek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUzwloE5pWOHc2xH5hGOU6-rDT15eAs4I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

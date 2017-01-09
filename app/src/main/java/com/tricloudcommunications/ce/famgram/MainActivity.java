@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.onesignal.OneSignal;
 import com.parse.LogInCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
@@ -216,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        //Set the Application View
         setContentView(R.layout.activity_main);
 
         //Stops the keyboard from popping up,on load.
@@ -238,6 +240,9 @@ public class MainActivity extends AppCompatActivity {
         passwordResetEmailEditText = (EditText) findViewById(R.id.passwordResetEmailEditText);
 
 
+        // Call syncHashedEmail anywhere in your app if you have the user's email.
+        // This improves the effectiveness of OneSignal's "best-time" notification scheduling feature.
+        OneSignal.syncHashedEmail(ParseUser.getCurrentUser().getEmail());
 
         //Check if the user is already logged in.
         if (ParseUser.getCurrentUser() != null){
@@ -246,8 +251,6 @@ public class MainActivity extends AppCompatActivity {
 
             Log.i("curentUser", "User is logged in " + ParseUser.getCurrentUser().getUsername());
 
-
-
         }else {
 
             notLoggedIn();
@@ -255,7 +258,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i("curentUser", "User is Not logged in ");
 
         }
-
 
         //Start with: Create Objects, Query Objects, Update Objects
         /**

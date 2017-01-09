@@ -8,6 +8,7 @@ package com.tricloudcommunications.ce.famgram;
 import android.app.Application;
 import android.util.Log;
 
+import com.onesignal.OneSignal;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
@@ -50,13 +51,19 @@ public class StarterApplication extends Application{
         });
          */
 
-
         //ParseUser.enableAutomaticUser(); //Used if you want the app to automatically create a new user. In most cases we do not, so we will comment this out.
 
         ParseACL defaultACL = new ParseACL();
         defaultACL.setPublicReadAccess(true);
         defaultACL.setPublicWriteAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);
+
+
+        //Onsignal
+        OneSignal.startInit(this).init();
+        // Call syncHashedEmail anywhere in your app if you have the user's email.
+        // This improves the effectiveness of OneSignal's "best-time" notification scheduling feature.
+        // OneSignal.syncHashedEmail(userEmail);
 
     }
 
