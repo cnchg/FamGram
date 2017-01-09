@@ -12,6 +12,7 @@ import com.onesignal.OneSignal;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -58,9 +59,11 @@ public class StarterApplication extends Application{
         defaultACL.setPublicWriteAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);
 
+        //Initialize Parse Push notifications
+        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         //Onsignal
-        OneSignal.startInit(this).init();
+        //OneSignal.startInit(this).init();
         // Call syncHashedEmail anywhere in your app if you have the user's email.
         // This improves the effectiveness of OneSignal's "best-time" notification scheduling feature.
         // OneSignal.syncHashedEmail(userEmail);

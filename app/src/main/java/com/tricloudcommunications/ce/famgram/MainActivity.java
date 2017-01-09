@@ -14,7 +14,6 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.onesignal.OneSignal;
 import com.parse.LogInCallback;
 import com.parse.ParseAnalytics;
@@ -23,6 +22,12 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
 import com.parse.SignUpCallback;
+
+import com.parse.ParseInstallation;
+import com.parse.ParsePushBroadcastReceiver;
+import com.parse.ParseAnalytics;
+
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -240,9 +245,7 @@ public class MainActivity extends AppCompatActivity {
         passwordResetEmailEditText = (EditText) findViewById(R.id.passwordResetEmailEditText);
 
 
-        // Call syncHashedEmail anywhere in your app if you have the user's email.
-        // This improves the effectiveness of OneSignal's "best-time" notification scheduling feature.
-        OneSignal.syncHashedEmail(ParseUser.getCurrentUser().getEmail());
+
 
         //Check if the user is already logged in.
         if (ParseUser.getCurrentUser() != null){
@@ -492,6 +495,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+
+        //Onsignal
+        OneSignal.startInit(this).init();
+        // Call syncHashedEmail anywhere in your app if you have the user's email.
+        // This improves the effectiveness of OneSignal's "best-time" notification scheduling feature.
+        //OneSignal.syncHashedEmail(ParseUser.getCurrentUser().getEmail());
 
     }
 
