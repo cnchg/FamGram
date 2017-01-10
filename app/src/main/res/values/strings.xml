@@ -4,6 +4,7 @@
 
     <string name="app_name">Fam Gram</string>
     <string name="action_settings">Settings</string>
+    <string name="home_view_action_settings">Log Out</string>
 
     <string name="title_activity_rider">Map</string>
     <string name="title_activity_driver_location">Map</string>
@@ -31,7 +32,7 @@
     <string name="passwordResetButton">Email Password</string>
     <string name="cancelPasswordResetTextView">Never mind, I don\'t need a reset. </string>
     <string name="returnToLoginTextView">Log in</string>
-
+    <string name="title_activity_home_view">Home View</string>
 
 
 </resources>

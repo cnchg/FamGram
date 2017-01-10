@@ -41,7 +41,6 @@
             </intent-filter>
         </activity>
 
-
         <service android:name="com.parse.PushService" />
 
         <receiver
@@ -60,21 +59,23 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <!--IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
+                <!-- IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
                 <category android:name="com.tricloudcommunications.ce.famgram" />
             </intent-filter>
         </receiver>
 
-        <!--         IMPORTANT: Change "YOUR_SENDER_ID" to your GCM Sender Id. -->
+        <!-- IMPORTANT: Change "YOUR_SENDER_ID" to your GCM Sender Id. -->
         <meta-data
             android:name="com.parse.push.gcm_sender_id"
             android:value="id:1064109050996" />
-
         <meta-data
             android:name="com.parse.push.notification_icon"
             android:resource="@drawable/ic_cast_dark" />
 
-
+        <activity
+            android:name=".HomeViewActivity"
+            android:label="@string/title_activity_home_view"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

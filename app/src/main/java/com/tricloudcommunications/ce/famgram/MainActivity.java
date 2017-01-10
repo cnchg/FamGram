@@ -1,5 +1,6 @@
 package com.tricloudcommunications.ce.famgram;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -70,17 +71,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     if (e == null && user !=null){
 
-                        Toast.makeText(getApplicationContext(),"You have successfully logged in", Toast.LENGTH_LONG).show();
-                        signInLayout.setVisibility(View.INVISIBLE);
-                        logOutImageButton.setVisibility(View.VISIBLE);
+                        goHome();
 
-                        Log.i("LogInStatus", "You have successfully logged in");
+                        //Toast.makeText(getApplicationContext(),"You have successfully logged in", Toast.LENGTH_LONG).show();
+                        //signInLayout.setVisibility(View.INVISIBLE);
+                        //logOutImageButton.setVisibility(View.VISIBLE);
+                        //Log.i("LogInStatus", "You have successfully logged in");
 
                     }else {
 
                         Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 
-                        Log.i("LogInStatus", "Failed- Error: " + e.getMessage());
+                        //Log.i("LogInStatus", "Failed- Error: " + e.getMessage());
 
                     }
 
@@ -115,14 +117,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     if (e == null){
 
-                        Toast.makeText(MainActivity.this, "Awesome, you account is setup", Toast.LENGTH_LONG).show();
-                        signUpLayout.setVisibility(View.INVISIBLE);
-                        logOutImageButton.setVisibility(View.VISIBLE);
+                        goHome();
+
+                        //Toast.makeText(MainActivity.this, "Awesome, you account is setup", Toast.LENGTH_LONG).show();
+                        //signUpLayout.setVisibility(View.INVISIBLE);
+                        //logOutImageButton.setVisibility(View.VISIBLE);
 
                     }else{
 
                         Toast.makeText(MainActivity.this, e.getMessage() + " Try using another username and email.", Toast.LENGTH_LONG).show();
-                        Log.i("Sign In Error:", e.getMessage());
+                        //Log.i("Sign In Error:", e.getMessage());
 
                     }
                 }
@@ -145,20 +149,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void done(ParseException e) {
                     if (e == null){
 
-                        Toast.makeText(MainActivity.this, "Please check your email for password reset instructions", Toast.LENGTH_LONG).show();
                         passResetComplete();
+                        Toast.makeText(MainActivity.this, "Please check your email for password reset instructions", Toast.LENGTH_LONG).show();
 
                     }else{
 
                         Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.i("Password Reset Error:", e.getMessage());
+                        //Log.i("Password Reset Error:", e.getMessage());
                     }
                 }
             });
 
         }
 
-        Log.i("UserEvent", "Password reset button clicked, Send Email");
+        //Log.i("UserEvent", "Password reset button clicked, Send Email");
     }
 
     public void logInNow(View view){
@@ -252,6 +256,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void goHome(){
+
+        Intent i = new Intent(MainActivity.this, HomeViewActivity.class);
+        startActivity(i);
+
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -326,8 +337,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Check if the user is already logged in.
         if (ParseUser.getCurrentUser() != null){
 
-            logOutImageButton.setVisibility(View.VISIBLE);
-
+            goHome();
+            //logOutImageButton.setVisibility(View.VISIBLE);
             Log.i("curentUser", "User is logged in " + ParseUser.getCurrentUser().getUsername());
 
         }else {
