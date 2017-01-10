@@ -2,12 +2,14 @@ package com.tricloudcommunications.ce.famgram;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,8 +32,10 @@ import com.parse.ParseAnalytics;
 
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener {
 
+    Integer currentMode = 1; //1=logIn Screen; 2=signUp Screen; 3=reset Password Screen
+    RelativeLayout contentMainLayout;
     RelativeLayout signUpLayout;
     RelativeLayout signInLayout;
     RelativeLayout passwordResetLayout;
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         String logInUserName = String.valueOf(logInUserNameEditText.getText()).trim(); //Remove white spaces from the begining and end of string
         String logInPassword = String.valueOf(loginPasswordEdtText.getText()).trim(); //Remove white spaces from the begining and end of string
 
-        if (logInUserNameEditText.length() < 1 || loginPasswordEdtText.length() < 1 ){
+        if (logInUserNameEditText.getText().toString().matches("") || loginPasswordEdtText.getText().toString().matches("") ){
 
             Toast.makeText(getApplicationContext(), "Please enter a username and password", Toast.LENGTH_LONG).show();
 
@@ -74,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
                     }else {
 
-                        Toast.makeText(getApplicationContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 
-                        Log.i("LogInStatus", "Failed- Error: " + e.getMessage().toString());
+                        Log.i("LogInStatus", "Failed- Error: " + e.getMessage());
 
                     }
 
@@ -94,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
         String signUpEmail = String.valueOf(signUpEmailEditText.getText()).trim(); //Remove white spaces from the begining and end of string
         String signUpPhoneNumber = String.valueOf(signUpPhoneNumberEditText.getText()).trim(); //Remove white spaces from the begining and end of string
 
-        if (signUpUserNameEditText.length() < 1 || signUpPasswordEditText.length() < 1 || signUpEmailEditText.length() < 1 || signUpPhoneNumberEditText.length() < 1){
+        if (signUpUserNameEditText.getText().toString().matches("") || signUpPasswordEditText.getText().toString().matches("") || signUpEmailEditText.getText().toString().matches("") || signUpPhoneNumberEditText.getText().toString().matches("")){
 
-            Toast.makeText(getApplicationContext(), "Please enter a username, password, email, and phone number", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Please enter a username, password, email, and phone number", Toast.LENGTH_LONG).show();
 
         }else {
 
@@ -111,14 +115,14 @@ public class MainActivity extends AppCompatActivity {
 
                     if (e == null){
 
-                        Toast.makeText(getApplicationContext(), "Awesome, you account is setup", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Awesome, you account is setup", Toast.LENGTH_LONG).show();
                         signUpLayout.setVisibility(View.INVISIBLE);
                         logOutImageButton.setVisibility(View.VISIBLE);
 
                     }else{
 
-                        Toast.makeText(getApplicationContext(), e.getMessage().toString() + " Try using another username and email.", Toast.LENGTH_LONG).show();
-                        Log.i("Sign In Error:", e.getMessage().toString());
+                        Toast.makeText(MainActivity.this, e.getMessage() + " Try using another username and email.", Toast.LENGTH_LONG).show();
+                        Log.i("Sign In Error:", e.getMessage());
 
                     }
                 }
@@ -131,9 +135,9 @@ public class MainActivity extends AppCompatActivity {
 
         String passwordResetEmail = String.valueOf(passwordResetEmailEditText.getText()).trim(); //Remove white spaces from the begining and end of string
 
-        if (passwordResetEmailEditText.length() < 1){
+        if (passwordResetEmailEditText.getText().toString().matches("")){
 
-            Toast.makeText(getApplicationContext(), "Please enter your email address", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Please enter your email address", Toast.LENGTH_LONG).show();
         }else{
 
             ParseUser.requestPasswordResetInBackground(passwordResetEmail, new RequestPasswordResetCallback() {
@@ -141,14 +145,13 @@ public class MainActivity extends AppCompatActivity {
                 public void done(ParseException e) {
                     if (e == null){
 
-                        Toast.makeText(getApplicationContext(), "Please check your email for instructions", Toast.LENGTH_LONG).show();
-                        passwordResetLayout.setVisibility(View.INVISIBLE);
-                        signInLayout.setVisibility(View.VISIBLE);
+                        Toast.makeText(MainActivity.this, "Please check your email for password reset instructions", Toast.LENGTH_LONG).show();
+                        passResetComplete();
 
                     }else{
 
-                        Toast.makeText(getApplicationContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
-                        Log.i("Password Reset Error:", e.getMessage().toString());
+                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.i("Password Reset Error:", e.getMessage());
                     }
                 }
             });
@@ -160,8 +163,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void logInNow(View view){
 
+        currentMode = 1;
         signUpLayout.setVisibility(View.INVISIBLE);
         signInLayout.setVisibility(View.VISIBLE);
+        logInUserNameEditText.setText("");
+        loginPasswordEdtText.setText("");
+        loginPasswordEdtText.setOnKeyListener(MainActivity.this);
         //signUpLayout.animate().translationXBy(1000f).setDuration(2000);//Transition the image in from right to left
 
         Log.i("UserEvent", "User Clicked Sign In");
@@ -170,9 +177,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOutNow(View view){
 
+        currentMode = 1;
         ParseUser.logOut();
         logOutImageButton.setVisibility(View.INVISIBLE);
         signInLayout.setVisibility(View.VISIBLE);
+        logInUserNameEditText.setText("");
+        loginPasswordEdtText.setText("");
+        loginPasswordEdtText.setOnKeyListener(MainActivity.this);
         //signInLayout.animate().alpha(1f).setDuration(500);//makes the images visible
 
         Log.i("UserEvent", "User Clicked Log Out");
@@ -181,8 +192,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void resetPasswordNow(View view){
 
+        currentMode = 3;
         signInLayout.setVisibility(View.INVISIBLE);
         passwordResetLayout.setVisibility(View.VISIBLE);
+        passwordResetEmailEditText.setText("");
+        passwordResetEmailEditText.setOnKeyListener(MainActivity.this);
 
         Log.i("UserEvent", "User Clicked Rest Password");
 
@@ -190,8 +204,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void signUpNow(View view){
 
+        currentMode = 2;
         signInLayout.setVisibility(View.INVISIBLE);
         signUpLayout.setVisibility(View.VISIBLE);
+        signUpUserNameEditText.setText("");
+        signUpPasswordEditText.setText("");
+        signUpEmailEditText.setText("");
+        signUpPhoneNumberEditText.setText("");
+        signUpPhoneNumberEditText.setOnKeyListener(MainActivity.this);
         //signUpLayout.animate().translationXBy(1000f).setDuration(2000);//Transition the image in from right to left
 
         Log.i("UserEvent", "User Clicked Sign Up");
@@ -200,8 +220,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void returnToLoginNow(View view){
 
+        currentMode = 1;
         passwordResetLayout.setVisibility(View.INVISIBLE);
         signInLayout.setVisibility(View.VISIBLE);
+        logInUserNameEditText.setText("");
+        loginPasswordEdtText.setText("");
+        loginPasswordEdtText.setOnKeyListener(MainActivity.this);
 
         Log.i("UserEvent", "User Clicked return to login");
 
@@ -209,8 +233,60 @@ public class MainActivity extends AppCompatActivity {
 
     public void notLoggedIn(){
 
+        currentMode = 1;
         signInLayout.setVisibility(View.VISIBLE);
+        logInUserNameEditText.setText("");
+        loginPasswordEdtText.setText("");
+        loginPasswordEdtText.setOnKeyListener(MainActivity.this);
 
+    }
+
+    public void passResetComplete(){
+
+        currentMode = 1;
+        passwordResetLayout.setVisibility(View.INVISIBLE);
+        signInLayout.setVisibility(View.VISIBLE);
+        logInUserNameEditText.setText("");
+        loginPasswordEdtText.setText("");
+        loginPasswordEdtText.setOnKeyListener(MainActivity.this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if (v.getId() == R.id.content_main){
+
+            //Hide the keyboard if the user clicks anywhere on the background
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN){
+
+            switch(currentMode){
+
+                case 1:
+                    userSignIn(v);
+                    break;
+                case 2:
+                    userSignUp(v);
+                    break;
+                case 3:
+                    passwordReset(v);
+                    break;
+
+                default:
+            }
+
+        }
+
+        return false;
     }
 
     @Override
@@ -228,24 +304,24 @@ public class MainActivity extends AppCompatActivity {
         //Stops the keyboard from popping up,on load.
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        contentMainLayout = (RelativeLayout) findViewById(R.id.content_main);
         signInLayout = (RelativeLayout) findViewById(R.id.signInLayout);
         signUpLayout = (RelativeLayout) findViewById(R.id.signUpLayout);
         passwordResetLayout = (RelativeLayout) findViewById(R.id.resetPasswordLayout);
         logInUserNameEditText = (EditText) findViewById(R.id.loginUserNameEditText);
         loginPasswordEdtText = (EditText) findViewById(R.id.loginPasswordEditText);
-        logInButton = (Button) findViewById(R.id.logInButton);
-        signUpTextView = (TextView) findViewById(R.id.signUpTextView);
         signUpUserNameEditText = (EditText) findViewById(R.id.signupUserNameEditText);
         signUpPasswordEditText = (EditText) findViewById(R.id.signupPasswordEditText);
         signUpEmailEditText = (EditText) findViewById(R.id.signupEmailEditText);
         signUpPhoneNumberEditText = (EditText) findViewById(R.id.signupPhoneNumberEditText);
+        passwordResetEmailEditText = (EditText) findViewById(R.id.passwordResetEmailEditText);
+        logInButton = (Button) findViewById(R.id.logInButton);
         signUpButton = (Button) findViewById(R.id.signUpButton);
+        signUpTextView = (TextView) findViewById(R.id.signUpTextView);
         logInTextView = (TextView) findViewById(R.id.logInTextView);
         logOutImageButton = (ImageButton) findViewById(R.id.logOutImageButton);
-        passwordResetEmailEditText = (EditText) findViewById(R.id.passwordResetEmailEditText);
 
-
-
+        contentMainLayout.setOnClickListener(MainActivity.this);
 
         //Check if the user is already logged in.
         if (ParseUser.getCurrentUser() != null){
@@ -261,237 +337,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i("curentUser", "User is Not logged in ");
 
         }
-
-        //Start with: Create Objects, Query Objects, Update Objects
-        /**
-         //Posting Objects to the server
-         ParseObject score = new ParseObject("Score");
-         score.put("userName", "Chandler");
-         score.put("score", 86);
-         score.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
-
-        if (e == null){
-
-        Log.i("SaveInBackground", "Successful");
-
-        }else {
-
-        Log.i("SaveInBackground", "Failed. Error: " + e.toString());
-
-        }
-
-        }
-        });
-
-
-         //Read data from the server
-         ParseQuery<ParseObject> query = ParseQuery.getQuery("Score");
-         query.getInBackground("51mGXYtZwc", new GetCallback<ParseObject>() {
-        @Override
-        public void done(ParseObject object, ParseException e) {
-
-        if (e == null && object != null){
-
-        //We can also update objects on the server
-        object.put("score", 200);
-        object.saveInBackground();
-
-        Log.i("ObjectValue", object.getString("userName"));
-        Log.i("ObjectValue", Integer.toString(object.getInt("score")));
-
-        }
-
-
-        }
-        });
-         */
-
-
-        //Challange: Create a Tweet class; with a username and tweet objects; save on Parse; then query it; and update the tweet object content
-        /**
-         ParseObject myTweetObject = new ParseObject("Tweet");
-         myTweetObject.put("userName", "Chandler");
-         myTweetObject.put("tweets", "I like parse-server. I seems really cool. Can't wait to build!");
-         myTweetObject.saveInBackground(new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
-
-        if (e == null){
-
-        Log.i("SaveInBackgroud", "Successfully saved");
-
-        }else{
-
-        Log.i("SaveInBackground", "Failed. Error: " + e.toString());
-
-        }
-
-        }
-        });
-
-
-         //Query the Tweet Class
-         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Tweet");
-         query.getInBackground("qcTz8lVRA1", new GetCallback<ParseObject>() {
-        @Override
-        public void done(ParseObject object, ParseException e) {
-
-        if (e == null && object != null){
-
-        Log.i("ObjectValue", object.getString("userName"));
-        Log.i("ObjectValue", object.getString("tweets"));
-
-        }
-
-        }
-        });
-
-
-         //Update the Tweet Class
-         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Tweet");
-         query.getInBackground("qcTz8lVRA1", new GetCallback<ParseObject>() {
-        @Override
-        public void done(ParseObject object, ParseException e) {
-
-        if (e == null && object != null){
-
-        object.put("tweets", "I wounder if we will be using Parse for the rest of the projects in this course");
-        object.saveInBackground();
-
-        Log.i("ObjectValue", object.getString("userName"));
-        Log.i("ObjectValue", object.getString("tweets"));
-
-        }
-
-        }
-        });
-
-
-         //Advance Query: Get all the objects in a Class
-         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Score");
-         query.whereEqualTo("userName", "Milan");
-         query.setLimit(1);
-
-         query.findInBackground(new FindCallback<ParseObject>() {
-        @Override
-        public void done(List<ParseObject> objects, ParseException e) {
-
-        if(e == null){
-
-        Log.i("FindInBackGround", "Retrieved " + objects.size() + " Objects");
-
-        if (objects.size() > 0){
-
-        for (ParseObject object : objects){
-
-        Log.i("FindInBackGround IO ", object.getString("userName"));
-        Log.i("FindInBackGround IO ", Integer.toString(object.getInt("score")));
-        }
-
-        }
-
-        }
-
-        }
-        });
-
-
-         //Challange: Add 50 points to any score that is higher that 200
-         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Score");
-         query.whereGreaterThan("score", 200);
-
-         query.findInBackground(new FindCallback<ParseObject>() {
-        @Override
-        public void done(List<ParseObject> objects, ParseException e) {
-
-        if (e == null && objects != null){
-
-        Log.i("FindInBackground", "Count users with over 200 points in score " + objects.size());
-
-        for (ParseObject object : objects){
-
-        Log.i("Score Before Increment ", object.getString("userName") + " " + Integer.toString(object.getInt("score")));
-
-        //One method to increase the score is to increment the value:
-        //object.increment("score", 50);
-        //object.saveInBackground();
-
-        //Here is another way to do it:
-        object.put("score", object.getInt("score")+50);
-        object.saveInBackground();
-
-        Log.i("Score After Increment ", object.getString("userName") + " " + Integer.toString(object.getInt("score")));
-
-        }
-
-        }
-
-        }
-        });
-         */
-
-        //ParseUser method: Signing up and Loging In users
-        /**
-         ParseUser user = new ParseUser();
-         user.setUsername("chandler");
-         user.setPassword("letmein");
-         user.setEmail("chandleretienne@gmail.com");
-         user.put("phoneNumber", "6784623915");
-         user.signUpInBackground(new SignUpCallback() {
-        @Override
-        public void done(ParseException e) {
-
-        if (e == null){
-
-        Log.i("SingUpInBackground", "Successful signup");
-
-        }else{
-
-        Log.i("SingUpInBackground", "Failed- Error: " + e.toString());
-
-        }
-
-        }
-        });
-
-
-         //Login: how to log  users in
-         ParseUser.logInInBackground("chandler", "letmein", new LogInCallback() {
-        @Override
-        public void done(ParseUser user, ParseException e) {
-
-        if (e == null && user !=null){
-
-        Log.i("LogInStatus", "You have successfully logged in");
-
-        }else {
-
-        Log.i("LogInStatus", "Failed- Error: " + e.toString());
-
-        }
-
-        }
-        });
-
-
-         //Check if the user is already logged in.
-         if (ParseUser.getCurrentUser() != null){
-
-         Log.i("curentUser", "User is logged in " + ParseUser.getCurrentUser().getUsername());
-
-         }else {
-
-         Log.i("curentUser", "User is Not logged in ");
-
-         }
-
-        //How to log out
-        ParseUser.logOut();
-        */
-
-
 
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
@@ -525,4 +370,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
