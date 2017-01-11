@@ -52,22 +52,26 @@ public class HomeViewActivity extends AppCompatActivity {
 
         ParseSession.getCurrentSessionInBackground(new GetCallback<ParseSession>() {
             @Override
-            public void done(ParseSession object, ParseException e) {
+            public void done(final ParseSession object, ParseException e) {
 
                 if (object != null){
 
                     ParseQuery<ParseUser> userParseQuery = ParseUser.getQuery();
                     userParseQuery.whereNotEqualTo("username", ParseUser.getCurrentUser().getUsername());
+                    userParseQuery.addAscendingOrder("username");
                     userParseQuery.findInBackground(new FindCallback<ParseUser>() {
                         @Override
                         public void done(List<ParseUser> objects, ParseException e) {
 
                             if (e == null){
 
-                                for (ParseObject users : objects){
+                                if (objects.size() > 0) {
 
-                                    usersArrayList.add(users.getString("username"));
-                                    arrayAdapter.notifyDataSetChanged();
+                                    for (ParseUser users : objects) {
+
+                                        usersArrayList.add(users.getString("username"));
+                                        arrayAdapter.notifyDataSetChanged();
+                                    }
                                 }
 
                             }else {
