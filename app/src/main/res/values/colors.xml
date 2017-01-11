@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="fam_gram_signup">#57d5e2</color>
     <color name="fam_gram_accent">#57d5e2</color>
+    <color name="fam_gram_colorPrimaryDark">#0096b1</color>
 </resources>

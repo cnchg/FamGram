@@ -80,12 +80,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     }else {
 
-                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-
+                        handleParseError(e);
+                        //Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         //Log.i("LogInStatus", "Failed- Error: " + e.getMessage());
 
                     }
-
                 }
             });
 
@@ -125,9 +124,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     }else{
 
-                        Toast.makeText(MainActivity.this, e.getMessage() + " Try using another username and email.", Toast.LENGTH_LONG).show();
+                        handleParseError(e);
+                        //Toast.makeText(MainActivity.this, e.getMessage() + " Try using another username and email.", Toast.LENGTH_LONG).show();
                         //Log.i("Sign In Error:", e.getMessage());
-
                     }
                 }
             });
@@ -149,12 +148,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void done(ParseException e) {
                     if (e == null){
 
-                        passResetComplete();
+                        passwordResetComplete();
                         Toast.makeText(MainActivity.this, "Please check your email for password reset instructions", Toast.LENGTH_LONG).show();
 
                     }else{
 
-                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        handleParseError(e);
+                        //Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         //Log.i("Password Reset Error:", e.getMessage());
                     }
                 }
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginPasswordEdtText.setOnKeyListener(MainActivity.this);
         //signInLayout.animate().alpha(1f).setDuration(500);//makes the images visible
 
-        Log.i("UserEvent", "User Clicked Log Out");
+        //Log.i("UserEvent", "User Clicked Log Out");
 
     }
 
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         passwordResetEmailEditText.setText("");
         passwordResetEmailEditText.setOnKeyListener(MainActivity.this);
 
-        Log.i("UserEvent", "User Clicked Rest Password");
+        //Log.i("UserEvent", "User Clicked Rest Password");
 
     }
 
@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signUpPhoneNumberEditText.setOnKeyListener(MainActivity.this);
         //signUpLayout.animate().translationXBy(1000f).setDuration(2000);//Transition the image in from right to left
 
-        Log.i("UserEvent", "User Clicked Sign Up");
+        //Log.i("UserEvent", "User Clicked Sign Up");
 
     }
 
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginPasswordEdtText.setText("");
         loginPasswordEdtText.setOnKeyListener(MainActivity.this);
 
-        Log.i("UserEvent", "User Clicked return to login");
+        //Log.i("UserEvent", "User Clicked return to login");
 
     }
 
@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void passResetComplete(){
+    public void passwordResetComplete(){
 
         currentMode = 1;
         passwordResetLayout.setVisibility(View.INVISIBLE);
@@ -260,6 +260,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent i = new Intent(MainActivity.this, HomeViewActivity.class);
         startActivity(i);
+
+    }
+
+    public void handleParseError(Exception e){
+        //Source: https://parseplatform.github.io//docs/android/guide/#handling-invalid-session-token-error
+        //Source: http://parseplatform.github.io/docs/android/guide/#handling-invalid-session-token-error
+
+        switch(e.getMessage()){
+
+            case "invalid session token":
+                ParseUser.logOut();
+                logInUserNameEditText.setText("");
+                loginPasswordEdtText.setText("");
+                Toast.makeText(MainActivity.this, "Opps, something went wrong. Please try again.", Toast.LENGTH_LONG).show();
+                break;
+
+            case "i/o failure":
+                Toast.makeText(MainActivity.this, "Unable to connect to FamGram services", Toast.LENGTH_LONG).show();
+                break;
+
+            default:
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -294,7 +317,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 default:
             }
-
         }
 
         return false;
@@ -344,9 +366,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else {
 
             notLoggedIn();
-
             Log.i("curentUser", "User is Not logged in ");
-
         }
 
 

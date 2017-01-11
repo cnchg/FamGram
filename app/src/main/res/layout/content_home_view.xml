@@ -11,6 +11,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.tricloudcommunications.ce.famgram.HomeViewActivity"
-    tools:showIn="@layout/activity_home_view">
+    tools:showIn="@layout/activity_home_view"
+    android:padding="0dp">
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/usersListView" />
 </RelativeLayout>
